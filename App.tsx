@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 interface Laps {
   number: number
@@ -14,37 +14,32 @@ let num = 0
 
 export default function App() {
   const [time, setTime] = useState(0)
-
-  const [isActive, setIsActive] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
 
   useEffect(() => {
     let interval: NodeJS.Timer
 
-    if (isActive && isPaused === false) {
+    if (isPaused === false) {
       interval = setInterval(() => {
-        setTime((time) => time + 100)
+        setTime((time) => time + 10)
       }, 100)
     }
 
     return () => {
       clearInterval(interval)
     }
-  }, [isActive, isPaused])
+  }, [isPaused])
 
   const handleStart = () => {
-    if (isActive === false && isPaused === true) {
-      setIsActive(true)
+    if (isPaused === true) {
       setIsPaused(false)
     } else {
-      setIsActive(false)
       setIsPaused(true)
     }
   }
 
   const handleReset = () => {
-    if (isActive === false && isPaused === true) {
-      setIsActive(false)
+    if (isPaused === true) {
       setTime(0)
       laps = []
       num = 0
@@ -53,7 +48,7 @@ export default function App() {
         number: ++num,
         miliseconds: ('0' + Math.floor(time / 10)).slice(-2),
         seconds: ('0' + (Math.floor(time / 1000) % 60)).slice(-2),
-        minutes: ('0' + Math.floor((time / 60000) % 60)).slice(-2),
+        minutes: ('0' + (Math.floor(time / 60000) % 60)).slice(-2),
       })
     }
   }
@@ -61,7 +56,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.timer}>
-        {('0' + Math.floor((time / 60000) % 60)).slice(-2)}:
+        {('0' + (Math.floor(time / 60000) % 60)).slice(-2)}:
         {('0' + (Math.floor(time / 1000) % 60)).slice(-2)}.
         {('0' + Math.floor(time / 10)).slice(-2)}
       </Text>
@@ -70,6 +65,7 @@ export default function App() {
         <Text style={styles.lapsHeaderText}>Lap</Text>
         <Text style={styles.lapsHeaderText}>Lap times</Text>
       </View>
+
       {laps.map((lap) => (
         <View
           key={lap.number}
@@ -140,6 +136,7 @@ const styles = StyleSheet.create({
 
     backgroundColor: '#fff',
   },
+
   timer: {
     fontSize: 80,
     marginBottom: 32,
@@ -151,6 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '80%',
   },
+
   lapsHeaderText: {
     fontWeight: '700',
   },
@@ -161,6 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '80%',
   },
+
   buttons: {
     position: 'absolute',
     width: '80%',
@@ -171,5 +170,3 @@ const styles = StyleSheet.create({
     bottom: 24,
   },
 })
-
-const Container = StyleSheet.create
