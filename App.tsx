@@ -21,7 +21,7 @@ export default function App() {
 
     if (isPaused === false) {
       interval = setInterval(() => {
-        setTime((time) => time + 10)
+        setTime((time) => time + 100)
       }, 100)
     }
 
