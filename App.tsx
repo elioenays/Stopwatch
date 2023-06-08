@@ -21,7 +21,7 @@ export default function App() {
 
     if (isPaused === false) {
       interval = setInterval(() => {
-        setTime((time) => time + 100)
+        setTime((prevTime) => prevTime + 100)
       }, 100)
     }
 
@@ -46,7 +46,7 @@ export default function App() {
     } else {
       laps.unshift({
         number: ++num,
-        miliseconds: ('0' + Math.floor(time / 10)).slice(-2),
+        miliseconds: ('0' + Math.floor(time / 10)).slice(-2, -1),
         seconds: ('0' + (Math.floor(time / 1000) % 60)).slice(-2),
         minutes: ('0' + (Math.floor(time / 60000) % 60)).slice(-2),
       })
@@ -58,7 +58,7 @@ export default function App() {
       <Text style={styles.timer}>
         {('0' + (Math.floor(time / 60000) % 60)).slice(-2)}:
         {('0' + (Math.floor(time / 1000) % 60)).slice(-2)}.
-        {('0' + Math.floor(time / 10)).slice(-2)}
+        {('' + Math.floor(time / 10)).slice(-2, -1)}
       </Text>
 
       <View style={styles.lapsHeader}>
