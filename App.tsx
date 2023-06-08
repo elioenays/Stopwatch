@@ -58,7 +58,7 @@ export default function App() {
       <Text style={styles.timer}>
         {('0' + (Math.floor(time / 60000) % 60)).slice(-2)}:
         {('0' + (Math.floor(time / 1000) % 60)).slice(-2)}.
-        {('' + Math.floor(time / 10)).slice(-2, -1)}
+        {('0' + Math.floor(time / 10)).slice(-2, -1)}
       </Text>
 
       <View style={styles.lapsHeader}>
