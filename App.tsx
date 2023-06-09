@@ -43,6 +43,7 @@ export default function App() {
     if (isPaused) {
       setTime(0)
       setLaps([])
+      num = 0
     } else {
       laps.unshift({
         lapNum: ++num,
