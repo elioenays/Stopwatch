@@ -1,4 +1,3 @@
-import React from 'react'
 import { ColorValue, Pressable, Text } from 'react-native'
 
 interface buttonProps {
@@ -8,7 +7,7 @@ interface buttonProps {
   handleClick: () => void
 }
 
-function Button({
+export default function Button({
   handleClick,
   backgroundColor,
   label,
@@ -32,5 +31,3 @@ function Button({
     </Pressable>
   )
 }
-
-export default Button

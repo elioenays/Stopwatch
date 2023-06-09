@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Button from './components/Button/Button'
 
 interface Laps {
