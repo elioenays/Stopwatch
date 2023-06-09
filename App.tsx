@@ -3,23 +3,20 @@ import { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 interface Laps {
-  number: number
   minutes: string
   seconds: string
   miliseconds: string
 }
 
-let laps: Laps[] = []
-let num = 0
-
 export default function App() {
   const [time, setTime] = useState(0)
   const [isPaused, setIsPaused] = useState(true)
+  const [laps, setLaps] = useState<Laps[]>([])
 
   useEffect(() => {
     let interval: NodeJS.Timer
 
-    if (isPaused === false) {
+    if (!isPaused) {
       interval = setInterval(() => {
         setTime((prevTime) => prevTime + 100)
       }, 100)
@@ -31,7 +28,7 @@ export default function App() {
   }, [isPaused])
 
   const handleStart = () => {
-    if (isPaused === true) {
+    if (isPaused) {
       setIsPaused(false)
     } else {
       setIsPaused(true)
@@ -39,13 +36,11 @@ export default function App() {
   }
 
   const handleReset = () => {
-    if (isPaused === true) {
+    if (isPaused) {
       setTime(0)
-      laps = []
-      num = 0
+      setLaps([])
     } else {
       laps.unshift({
-        number: ++num,
         miliseconds: ('0' + Math.floor(time / 10)).slice(-2, -1),
         seconds: ('0' + (Math.floor(time / 1000) % 60)).slice(-2),
         minutes: ('0' + (Math.floor(time / 60000) % 60)).slice(-2),
@@ -66,12 +61,12 @@ export default function App() {
         <Text style={styles.lapsHeaderText}>Lap times</Text>
       </View>
 
-      {laps.map((lap) => (
+      {laps.map((lap, index) => (
         <View
-          key={lap.number}
+          key={index}
           style={styles.laps}
         >
-          <Text>{lap.number}</Text>
+          <Text>{index}</Text>
           <Text>
             {lap.minutes}:{lap.seconds}.{lap.miliseconds}
           </Text>
@@ -91,23 +86,23 @@ export default function App() {
           onPress={() => {
             handleReset()
           }}
-          disabled={time !== 0 ? false : true}
+          disabled={time ? false : true}
         >
           <Text
             style={{
-              color: time !== 0 ? '#000' : '#808080',
+              color: time ? '#000' : '#808080',
               fontStyle: 'normal',
+              fontWeight: '600',
             }}
           >
-            {time !== 0 && isPaused ? 'Reset' : 'Lap'}
+            {time && isPaused ? 'Reset' : 'Lap'}
           </Text>
         </Pressable>
         <Pressable
           style={{
             width: 100,
             height: 40,
-            backgroundColor:
-              time === 0 ? '#9ac3fd' : isPaused ? '#9ac3fd' : 'red',
+            backgroundColor: !time ? '#9ac3fd' : isPaused ? '#9ac3fd' : 'red',
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: 20,
@@ -116,8 +111,8 @@ export default function App() {
             handleStart()
           }}
         >
-          <Text style={{ color: '#fff', fontStyle: 'normal' }}>
-            {time === 0 ? 'Start' : isPaused ? 'Resume' : 'Stop'}
+          <Text style={{ color: '#fff', fontWeight: '600' }}>
+            {!time ? 'Start' : isPaused ? 'Resume' : 'Stop'}
           </Text>
         </Pressable>
       </View>
