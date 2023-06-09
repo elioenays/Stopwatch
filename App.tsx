@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import Button from './components/Button/Button'
 
 interface Laps {
   lapNum: number
@@ -78,47 +79,22 @@ export default function App() {
       ))}
 
       <View style={styles.buttons}>
-        <Pressable
-          style={{
-            width: 100,
-            height: 40,
-            backgroundColor: '#c4c4c4',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 20,
-          }}
-          onPress={() => {
+        <Button
+          backgroundColor='#c4c4c4'
+          labelColor={'#000'}
+          label={time && isPaused ? 'Reset' : 'Lap'}
+          handleClick={() => {
             handleReset()
           }}
-          disabled={time ? false : true}
-        >
-          <Text
-            style={{
-              color: time ? '#000' : '#808080',
-              fontStyle: 'normal',
-              fontWeight: '600',
-            }}
-          >
-            {time && isPaused ? 'Reset' : 'Lap'}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={{
-            width: 100,
-            height: 40,
-            backgroundColor: !time ? '#9ac3fd' : isPaused ? '#9ac3fd' : 'red',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 20,
-          }}
-          onPress={() => {
+        />
+        <Button
+          labelColor='#fff'
+          backgroundColor={!time ? '#9ac3fd' : isPaused ? '#9ac3fd' : 'red'}
+          label={!time ? 'Start' : isPaused ? 'Resume' : 'Stop'}
+          handleClick={() => {
             handleStart()
           }}
-        >
-          <Text style={{ color: '#fff', fontWeight: '600' }}>
-            {!time ? 'Start' : isPaused ? 'Resume' : 'Stop'}
-          </Text>
-        </Pressable>
+        />
       </View>
       <StatusBar style='auto' />
     </View>
