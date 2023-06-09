@@ -3,10 +3,13 @@ import { useEffect, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 interface Laps {
+  lapNum: number
   minutes: string
   seconds: string
   miliseconds: string
 }
+
+let num = 0
 
 export default function App() {
   const [time, setTime] = useState(0)
@@ -41,6 +44,7 @@ export default function App() {
       setLaps([])
     } else {
       laps.unshift({
+        lapNum: ++num,
         miliseconds: ('0' + Math.floor(time / 10)).slice(-2, -1),
         seconds: ('0' + (Math.floor(time / 1000) % 60)).slice(-2),
         minutes: ('0' + (Math.floor(time / 60000) % 60)).slice(-2),
@@ -61,12 +65,12 @@ export default function App() {
         <Text style={styles.lapsHeaderText}>Lap times</Text>
       </View>
 
-      {laps.map((lap, index) => (
+      {laps.map((lap) => (
         <View
-          key={index}
+          key={lap.lapNum}
           style={styles.laps}
         >
-          <Text>{index}</Text>
+          <Text>{lap.lapNum}</Text>
           <Text>
             {lap.minutes}:{lap.seconds}.{lap.miliseconds}
           </Text>
