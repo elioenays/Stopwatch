@@ -4,13 +4,10 @@ import { StatusBar } from 'expo-status-bar'
 import Button from './components/Button/Button'
 
 interface Laps {
-  lapNum: number
   minutes: string
   seconds: string
   miliseconds: string
 }
-
-let num = 0
 
 export default function App() {
   const [time, setTime] = useState(0)
@@ -43,10 +40,8 @@ export default function App() {
     if (isPaused) {
       setTime(0)
       setLaps([])
-      num = 0
     } else {
       laps.unshift({
-        lapNum: ++num,
         miliseconds: ('0' + Math.floor(time / 10)).slice(-2, -1),
         seconds: ('0' + (Math.floor(time / 1000) % 60)).slice(-2),
         minutes: ('0' + (Math.floor(time / 60000) % 60)).slice(-2),
@@ -67,12 +62,12 @@ export default function App() {
         <Text style={styles.lapsHeaderText}>Lap times</Text>
       </View>
 
-      {laps.map((lap) => (
+      {laps.map((lap, index) => (
         <View
-          key={lap.lapNum}
+          key={index}
           style={styles.laps}
         >
-          <Text>{lap.lapNum}</Text>
+          <Text>{laps.length - index}</Text>
           <Text>
             {lap.minutes}:{lap.seconds}.{lap.miliseconds}
           </Text>
